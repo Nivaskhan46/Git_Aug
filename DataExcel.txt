@@ -1,0 +1,47 @@
+package com.fb.task;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class FbData_Excel {
+	Workbook wb;
+	
+
+	public void loadExcel() throws IOException {
+    FileInputStream fis = new FileInputStream(EJavaMavenTestData.xlsx);
+    wb = new XSSFWorkbook(fis);
+	}
+	
+	public String getUsername() {
+    String user = wb.getSheet(FB).getRow(1).getCell(2).getStringCellValue();
+    return user;
+	}
+	public String getPassword() {
+		String pass = wb.getSheet(FB).getRow(1).getCell(3).getStringCellValue();
+		return pass;
+			}
+	public String getUrl() {
+    String url = wb.getSheet(FB).getRow(1).getCell(1).getStringCellValue();
+    return url;
+	}
+	
+	public void getResult(boolean f, String act) throws IOException {
+    FileOutputStream fos = new FileOutputStream(EJavaMavenTestData.xlsx);
+    wb.getSheet(FB).getRow(1).createCell(4).setCellValue(act);
+		String s =;
+		
+		if (f == true) {
+			s = PASS;
+		} else {
+           s = FAIL;
+		}
+		wb.getSheet(FB).getRow(1).createCell(5).setCellValue(s);
+		wb.write(fos);
+		wb.close();
+	}
+	
+}
